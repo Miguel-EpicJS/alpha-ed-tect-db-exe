@@ -5,17 +5,38 @@ const { Client } = require("pg");
 const client = new Client({
     connectionString: process.env.DB_LINK_POSTGRES
 });
+
 client.connect();
 
-const sql = ' SELECT * FROM "public"."public.ae_Admin" LIMIT 100'
+module.exports = {
+    getUsers: (limit) => {
+        try {
+            if (limit > 0 && limit < 100000) {
+                const sql = `SELECT * FROM "public"."public.ae_User" LIMIT $1`;
+                const result = client.query(sql, [limit]);
+                return result;
+            } else {
+                new Error("The value is bellow 0, or is above 100000 or isn't a number");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
+    insertUser: (user) => {
+        try {
+            if (user) {
+                const sql = `INSERT INTO "public"."public.ae_User" ("Name", "Username", "Email", "Password", "Salt", "User_type", "Deleted") VALUES ($1, $2, $3, $4, $5, $6, $7)`;
+                const result = client.query(sql, user);
+                return result;
 
-client.query(sql, (err, res) => {
-    if (err) {
-        console.log('error: ', err);
-        process.exit(1);
+            } else {
+                new Error("The value is bellow 0, or is above 100000 or isn't a number");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+        client.end();
     }
-    console.log(res)
-    process.exit(0);
-});
-
-module.exports = client;
+}
