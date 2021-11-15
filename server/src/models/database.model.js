@@ -27,7 +27,7 @@ module.exports = {
         try {
             if (user) {
                 const sql = `INSERT INTO "public"."public.ae_User" ("Name", "Username", "Email", "Password", "Salt", "User_type", "Deleted") VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-                const result = client.query(sql, user);
+                const result = client.query(sql, [user.name, user.username, user.email, user.password, user.salt, user.user_type, user.deleted]);
                 return result;
 
             } else {
