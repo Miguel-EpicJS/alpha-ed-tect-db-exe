@@ -38,5 +38,32 @@ module.exports = {
             return error;
         }
         client.end();
+    },
+    getCategories: (limit) => {
+        try {
+            if (limit > 0 && limit < 100000) {
+                const sql = `SELECT * FROM "public"."public.ae_Category" LIMIT LIMIT $1`;
+                const result = client.query(sql, [limit]);
+                return result;
+            } else {
+                new Error("The value is bellow 0, or is above 100000 or isn't a number");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
+    addCategories: (category) => {
+        try {
+            if(category) {
+                const sql = `INSERT INTO "public"."public.ae_Category" ("Name", "Description", "Deleted") VALUES ($1, $2, $3)`;
+                const result = client.query(sql, [category.name, category.description, false]);
+                return result;
+
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
     }
 }
