@@ -6,7 +6,7 @@ module.exports = {
             console.log(cookies);
             res.status(200).send("You're already logged");
         }else{
-            console.log(req.body)
+            console.log(req.body);
             next();
         }
     },
@@ -14,8 +14,10 @@ module.exports = {
         const {cookies} = req;
         console.log(cookies);
         if (cookies["user"]) {
-            res.locals.user = cookies["user"].username;
-            res.locals.type = cookies["user"].user_type;
+            res.locals.user = JSON.parse(cookies["user"]).username;
+            res.locals.type = JSON.parse(cookies["user"]).user_type;
+
+            next();
         }else{
             res.status(200).send("You aren't logged");
         }

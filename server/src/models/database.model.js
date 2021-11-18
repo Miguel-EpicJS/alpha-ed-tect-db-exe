@@ -42,7 +42,7 @@ module.exports = {
     getCategories: (limit) => {
         try {
             if (limit > 0 && limit < 100000) {
-                const sql = `SELECT * FROM "public"."public.ae_Category" LIMIT LIMIT $1`;
+                const sql = `SELECT * FROM "public"."public.ae_Category" LIMIT $1`;
                 const result = client.query(sql, [limit]);
                 return result;
             } else {
