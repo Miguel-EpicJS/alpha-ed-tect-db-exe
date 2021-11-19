@@ -1,5 +1,4 @@
 const database = require("../models/database.model");
-const categoryRoutes = require("../router/categories.routes");
 
 module.exports = {
     getCategories: (req, res) => {

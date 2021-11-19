@@ -1,32 +1,27 @@
 import "./post.css";
-import battlefield from "../../assets/images/post-battlefiled.jpg";
+import { Link } from "react-router-dom";
 
-export default function Post() {
+export default function Post({ post }) {
+  const publicFolder = "http://localhost:5000/images/";
   return (
     <div className="post">
-      <img
-        className="postImg"
-        src={battlefield}
-        alt=""
-      />
+      {post.photo && (
+        <img className="postImg" src={publicFolder + post.photo} alt="" />
+      )}
       <div className="postInfo">
         <div className="postCats">
-          <span className="postCat">#AÇÃO</span>
-          <span className="postCat">#TIRO</span>
+          {post.categories.map((c) => (
+            <span className="postCat">{c.name}</span>
+          ))}
         </div>
-        <span className="postTitle">Lançamento Battlefield 2042</span>
-        <span className="postDate">1 hora atrás</span>
+        <Link className="link" to={`/post/${post._id}`}>
+          <span className="postTitle">{post.title}</span>
+        </Link>
+        <span className="postDate">
+          {new Date(post.createdAt).toDateString()}
+        </span>
       </div>
-      <p className="postDesc">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolor
-        cupiditate consequatur quo consequuntur fuga autem alias. Tempora
-        asperiores perferendis eveniet atque, corrupti numquam commodi beatae
-        dolores minima at iusto non?
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolor
-        cupiditate consequatur quo consequuntur fuga autem alias. Tempora
-        asperiores perferendis eveniet atque, corrupti numquam commodi beatae
-        dolores minima at iusto non?
-      </p>
+      <p className="postDesc">{post.desc}</p>
     </div>
   );
 }
