@@ -8,7 +8,7 @@ module.exports = {
                 const categories = dbCategories.rows;
                 if (req.params.id) {
                     categories.forEach((category, index, arr) => {
-                        if (category.Id == req.params.id) {
+                        if (category.id == req.params.id) {
                             submit = true;
                             console.log(category);
                             console.log(JSON.stringify(category));

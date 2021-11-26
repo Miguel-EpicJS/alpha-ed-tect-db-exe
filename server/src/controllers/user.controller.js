@@ -7,11 +7,11 @@ module.exports = {
         console.log(user);
         database.getUsers(100).then(usersDb => {
             usersDb.rows.forEach(el => {
-                if (el.Username === user.username) {
-                    bcrypt.compare(user.password, el.Password, (err, r) => {
+                if (el.username === user.username) {
+                    bcrypt.compare(user.password, el.password, (err, r) => {
                         if (r === true) {
                             console.log(usersDb.rows);
-                            res.cookie("user", JSON.stringify({username: el.Username, user_type: el.User_type}), {
+                            res.cookie("user", JSON.stringify({username: el.username, user_type: el.user_type}), {
                                 maxAge: 1 * 24 * 60 * 60,
                                 httpOnly: true
                             });
