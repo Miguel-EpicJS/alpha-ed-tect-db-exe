@@ -50,7 +50,7 @@ module.exports = {
         const updatePost = {...post, id: req.params.id};
 
         if (cookies.user_type >= 2) {
-            database.updateUser(updatePost);
+            database.updatePost(updatePost);
             res.status(200).send("Update completed");    
         }else{
             res.status(403).send("Permission denied, you need to be an admin")

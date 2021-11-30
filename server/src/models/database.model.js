@@ -82,12 +82,27 @@ module.exports = {
             return error;
         }
     },
-    addCategories: (category) => {
+    addCategory: (category) => {
         try {
             if(category) {
                 const sql = `INSERT INTO "public"."ae_Category" ("name", "description", "deleted") VALUES ($1, $2, $3)`;
                 const result = client.query(sql, [category.name, category.description, false]);
                 return result;
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
+    updateCategory: (category) => {
+        try {
+            if (category) {
+                const sql = `UPDATE "public"."ae_Category" SET name = $1, description = $2 WHERE id = $3`;
+                client.query(sql, [category.name, category.description, category.id]);
+                return true;
+            }else
+            {
+                new Error("You need to pass a valid category");
             }
         } catch (error) {
             console.log(error);
@@ -120,7 +135,7 @@ module.exports = {
             return error;
         }
     },
-    updateUser: (post) => {
+    updatePost: (post) => {
         try {
             if (post) {
                 const sql = `UPDATE "public"."ae_Posts" SET title = $1, subtitle = $2, content = $3, about = $4, image_link = $5, posted_by = $6, validated = $7, validated_by = $8, category = $9 WHERE id = $10`;
