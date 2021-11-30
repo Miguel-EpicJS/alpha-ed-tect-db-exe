@@ -119,5 +119,20 @@ module.exports = {
             console.log(error);
             return error;
         }
+    },
+    updateUser: (post) => {
+        try {
+            if (post) {
+                const sql = `UPDATE "public"."ae_Posts" SET title = $1, subtitle = $2, content = $3, about = $4, image_link = $5, posted_by = $6, validated = $7, validated_by = $8, category = $9 WHERE id = $10`;
+                client.query(sql, [post.title, post.subtitle, post.content, post.about, post.image_link, post.posted_by, post.validated, post.validated_by, post.category, post.id]);
+                return true;
+            }else
+            {
+                new Error("You need to pass a valid post");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
     }
 }

@@ -9,7 +9,7 @@ postRoutes.get("/show-post/:id", postsController.getPosts);
 
 postRoutes.post("/add-post", cookieMiddleware.verifyCookie, postsController.addPost);
 
-postRoutes.put("/update-post/:id", (req, res) => { res.send("working: " + req) });
+postRoutes.put("/update-post/:id", cookieMiddleware.verifyCookie, postsController.postUpdate);
 
 postRoutes.delete("/delete-post/:id", (req, res) => { res.send("working: " + req) });
 
