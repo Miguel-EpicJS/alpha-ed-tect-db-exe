@@ -50,19 +50,29 @@ module.exports = {
     },
     userUpdate: async (req, res) => {
         const {info} = req.body;
-        const cookies = JSON.parse(req.cookies.user);
+
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(info.password, salt);
 
         const user = {...info, salt: salt, password: hash, id: req.params.id};
 
-        if (cookies.user_type >= 2) {
+        if (res.locals.type >= 2) {
             database.updateUser(user);
             res.status(200).send("Update completed");    
         }else{
             res.status(403).send("Permission denied, you need to be an admin")
         }
         
+    },
+    userDelete: async (req, res) => {
+        if (res.locals.type >= 2) {
+            database.deleteUser(req.params.id).then(dbRes => {
+                console.log(dbRes);
+                res.status(200).send("Post deleted successfully");
+            });    
+        }else {
+            res.status(403).send("You are not an admin")
+        }        
     }
 };
 // 531186

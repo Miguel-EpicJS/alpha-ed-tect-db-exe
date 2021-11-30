@@ -11,7 +11,7 @@ postRoutes.post("/add-post", cookieMiddleware.verifyCookie, postsController.addP
 
 postRoutes.put("/update-post/:id", cookieMiddleware.verifyCookie, postsController.postUpdate);
 
-postRoutes.delete("/delete-post/:id", (req, res) => { res.send("working: " + req) });
+postRoutes.delete("/delete-post/:id", cookieMiddleware.verifyCookie, postsController.postDelete);
 
 
 module.exports = postRoutes;

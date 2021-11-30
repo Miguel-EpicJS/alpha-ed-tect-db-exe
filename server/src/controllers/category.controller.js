@@ -45,16 +45,24 @@ module.exports = {
     categoryUpdate: async (req, res) => {
         const {category} = req.body;
  
-        const cookies = JSON.parse(req.cookies.user);
 
         const updateCategory = {...category, id: req.params.id};
 
-        if (cookies.user_type >= 2) {
+        if (res.locals.type >= 2) {
             database.updateCategory(updateCategory);
             res.status(200).send("Update completed");    
         }else{
             res.status(403).send("Permission denied, you need to be an admin")
         }
-        
+    },
+    categoryDelete: async (req, res) => {
+        if (res.locals.type >= 2) {
+            database.deleteCategory(req.params.id).then(dbRes => {
+                console.log(dbRes);
+                res.status(200).send("Category deleted successfully");
+            });    
+        }else {
+            res.status(403).send("You are not an admin")
+        }        
     }
 }

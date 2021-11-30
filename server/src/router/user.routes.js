@@ -9,7 +9,7 @@ userRoutes.post("/signup", cookieMiddleware.loginCookie, userController.userSign
 
 userRoutes.patch("/update-user/:id",  cookieMiddleware.verifyCookie, userController.userUpdate);
 
-userRoutes.delete("/delete-user/:id",  cookieMiddleware.verifyCookie, (req, res) => { res.send("working: " + req)});
+userRoutes.delete("/delete-user/:id",  cookieMiddleware.verifyCookie, userController.userDelete);
 
 
 module.exports = userRoutes;

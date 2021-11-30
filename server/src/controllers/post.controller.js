@@ -45,16 +45,24 @@ module.exports = {
     postUpdate: async (req, res) => {
         const {post} = req.body;
  
-        const cookies = JSON.parse(req.cookies.user);
-
         const updatePost = {...post, id: req.params.id};
 
-        if (cookies.user_type >= 2) {
+        if (res.locals.type >= 2) {
             database.updatePost(updatePost);
             res.status(200).send("Update completed");    
         }else{
             res.status(403).send("Permission denied, you need to be an admin")
         }
         
+    },
+    postDelete: async (req, res) => {
+        if (res.locals.type >= 2) {
+            database.deletePost(req.params.id).then(dbRes => {
+                console.log(dbRes);
+                res.status(200).send("Post deleted successfully");
+            });    
+        }else {
+            res.status(403).send("You are not an admin")
+        }        
     }
 }

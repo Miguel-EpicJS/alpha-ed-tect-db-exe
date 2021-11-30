@@ -68,6 +68,21 @@ module.exports = {
             return error;
         }
     },
+    deleteUser: (user ) => {
+        try {
+            if (user) {
+                const sql = `UPDATE "public"."ae_User" SET deleted = true WHERE id = $1`;
+                client.query(sql, [user.id]);
+                return true;
+            }else
+            {
+                new Error("You need to pass a valid user");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
     getCategories: (limit) => {
         try {
             if (limit > 0 && limit < 100000) {
@@ -109,6 +124,21 @@ module.exports = {
             return error;
         }
     },
+    deleteCategory: (category) => {
+        try {
+            if (category) {
+                const sql = `UPDATE "public"."ae_Category" SET deleted = true WHERE id = $1`;
+                client.query(sql, [category.id]);
+                return true;
+            }else
+            {
+                new Error("You need to pass a valid category");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
     getPosts: (limit) => {
         try {
             if (limit > 0 && limit < 100000) {
@@ -140,6 +170,21 @@ module.exports = {
             if (post) {
                 const sql = `UPDATE "public"."ae_Posts" SET title = $1, subtitle = $2, content = $3, about = $4, image_link = $5, posted_by = $6, validated = $7, validated_by = $8, category = $9 WHERE id = $10`;
                 client.query(sql, [post.title, post.subtitle, post.content, post.about, post.image_link, post.posted_by, post.validated, post.validated_by, post.category, post.id]);
+                return true;
+            }else
+            {
+                new Error("You need to pass a valid post");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
+    deletePost: (post) => {
+        try {
+            if (post) {
+                const sql = `UPDATE "public"."ae_Posts" SET deleted = true WHERE id = $1`;
+                client.query(sql, [post.id]);
                 return true;
             }else
             {

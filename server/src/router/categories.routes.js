@@ -12,7 +12,7 @@ categoryRoutes.post("/add-category", cookieMiddleware.verifyCookie, categoryCont
 
 categoryRoutes.put("/update-category/:id", cookieMiddleware.verifyCookie, categoryController.categoryUpdate);
 
-categoryRoutes.delete("/delete-category/:id", cookieMiddleware.verifyCookie, (req, res) => { res.send("working: " + req) });
+categoryRoutes.delete("/delete-category/:id", cookieMiddleware.verifyCookie, categoryController.categoryDelete);
 
 
 module.exports = categoryRoutes;
