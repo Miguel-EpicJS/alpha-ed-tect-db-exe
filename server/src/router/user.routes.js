@@ -7,7 +7,7 @@ const userRoutes = require('express').Router();
 userRoutes.post("/login", cookieMiddleware.loginCookie, userController.userLogin);
 userRoutes.post("/signup", cookieMiddleware.loginCookie, userController.userSignup);
 
-userRoutes.patch("/update-user-type/:id",  cookieMiddleware.verifyCookie, (req, res) => { res.send("working: " + req)});
+userRoutes.patch("/update-user/:id",  cookieMiddleware.verifyCookie, userController.userUpdate);
 
 userRoutes.delete("/delete-user/:id",  cookieMiddleware.verifyCookie, (req, res) => { res.send("working: " + req)});
 

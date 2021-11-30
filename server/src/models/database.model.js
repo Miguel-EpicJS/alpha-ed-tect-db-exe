@@ -23,6 +23,20 @@ module.exports = {
             return error;
         }
     },
+    getUsersForLogin: (limit) => {
+        try {
+            if (limit > 0 && limit < 100000) {
+                const sql = `SELECT username, password, user_type FROM "public"."ae_User" WHERE deleted = false`;
+                const result = client.query(sql);
+                return result;
+            } else {
+                new Error("The value is bellow 0, or is above 100000 or isn't a number");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
     insertUser: (user) => {
         try {
             if (user) {
@@ -38,6 +52,21 @@ module.exports = {
             return error;
         }
         client.end();
+    },
+    updateUser: (user ) => {
+        try {
+            if (user) {
+                const sql = `UPDATE "public"."ae_User" SET name = $1, username = $2, email = $3, password = $4, salt = $5, user_type = $6 WHERE id = $7`;
+                client.query(sql, [user.name, user.username, user.email, user.password, user.salt, user.user_type, user.id]);
+                return true;
+            }else
+            {
+                new Error("You need to pass a valid user");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
     },
     getCategories: (limit) => {
         try {
@@ -68,7 +97,7 @@ module.exports = {
     getPosts: (limit) => {
         try {
             if (limit > 0 && limit < 100000) {
-                const sql = `SELECT * FROM "public"."ae_Posts" LIMIT LIMIT $1`;
+                const sql = `SELECT * FROM "public"."ae_Posts" LIMIT $1`;
                 const result = client.query(sql, [limit]);
                 return result;
             } else {
