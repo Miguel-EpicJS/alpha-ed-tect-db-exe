@@ -4,16 +4,18 @@ const bcrypt = require("bcrypt");
 module.exports = {
     userLogin: (req, res) => {
         const {user} = req.body;
-        console.log(user);
+        console.log(req.body);
         database.getUsersForLogin(100).then(usersDb => {
             usersDb.rows.forEach((el, index, array) => {
                 if (el.username === user.username) {
                     bcrypt.compare(user.password, el.password, (err, r) => {
                         if (r === true) {
                             console.log(usersDb.rows);
+                            res.setHeader('Access-Control-Allow-Headers', 'Set-Cookie')
                             res.cookie("user", JSON.stringify({username: el.username, user_type: el.user_type}), {
-                                maxAge: 1 * 24 * 60 * 60,
-                                httpOnly: true
+                                maxAge: 1 * 24 * 60 * 60 * 60 * 60,
+                                httpOnly: true, 
+                                signed: true
                             });
                             
                             res.status(200).send("Login ok");
@@ -42,7 +44,6 @@ module.exports = {
         database.insertUser(user).then(dbRes => {
             res.cookie("user", JSON.stringify({username: user.username, user_type: user.user_type}), {
                 maxAge: 1 * 24 * 60 * 60,
-                httpOnly: true
             });
             console.log(dbRes);
             res.status(200).send("Signup completed");

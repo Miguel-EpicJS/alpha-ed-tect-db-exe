@@ -1,25 +1,29 @@
-import { useContext, useRef } from "react";
-import { Link } from "react-router-dom";
-import { Context } from "../../context/Context";
 import axios from "axios";
+
+import { UserService } from "../../services/user.service";
+
+import { useRef } from "react";
+import { Link } from "react-router-dom";
+/* import { Context } from "../../context/Context";
+ import axios from "axios";*/
 import "./login.css";
 
 export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
-  const { dispatch, isFetching } = useContext(Context);
-
+/*   const { dispatch, isFetching } = useContext(Context);
+ */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("/auth/login", {
-        username: userRef.current.value,
-        password: passwordRef.current.value,
+      axios.get("/post/show-posts").then(res => {
+        console.log(res);
+        const cookie = res.headers["set-cookie"];
+        console.log(cookie);
       });
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
     } catch (err) {
-      dispatch({ type: "LOGIN_FAIL" });
+      console.log(err);
+      alert("Login Fail")
     }
   };
 
@@ -41,7 +45,7 @@ export default function Login() {
           placeholder="Coloque a sua senha"
           ref={passwordRef}
         />
-        <button className="loginButton" type="submit" disabled={isFetching}>
+        <button className="loginButton" type="submit" >
           Entrar
         </button>
       </form>
