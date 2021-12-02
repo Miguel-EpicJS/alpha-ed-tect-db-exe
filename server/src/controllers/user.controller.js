@@ -11,14 +11,11 @@ module.exports = {
                     bcrypt.compare(user.password, el.password, (err, r) => {
                         if (r === true) {
                             console.log(usersDb.rows);
-                            res.setHeader('Access-Control-Allow-Headers', 'Set-Cookie')
                             res.cookie("user", JSON.stringify({username: el.username, user_type: el.user_type}), {
                                 maxAge: 1 * 24 * 60 * 60 * 60 * 60,
                                 httpOnly: true, 
-                                signed: true
                             });
-                            
-                            res.status(200).send("Login ok");
+                            res.status(200).send(res.getHeaders()['set-cookie']);
                         } 
                         else{
                             console.log(el);
@@ -46,7 +43,7 @@ module.exports = {
                 maxAge: 1 * 24 * 60 * 60,
             });
             console.log(dbRes);
-            res.status(200).send("Signup completed");
+            res.status(200).send(res.getHeaders()['set-cookie']);
         });
     },
     userUpdate: async (req, res) => {

@@ -5,29 +5,34 @@ import "./register.css";
 
 export default function Register() {
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setError(false);
-    try {
-      const res = await axios.post("/auth/register", {
-        username,
-        email,
-        password,
-      });
-      res.data && window.location.replace("/login");
-    } catch (err) {
-      setError(true);
-    }
+
+    axios.post("http://127.0.0.1:4000/user/signup", { info: { username: username, password: password, email: email, name: name} }).then(res => {
+      document.cookie = "";
+      document.cookie = res.data;
+    }).catch(err => console.log(err));
+
   };
 
   return (
     <div className="register">
       <span className="registerTitle">Registrar</span>
       <form className="registerForm" onSubmit={handleSubmit}>
+
+        <label>Nome completo</label>
+        <input
+          type="text"
+          className="registerInput"
+          placeholder="Coloque o seu nome"
+          onChange={(e) => setName(e.target.value)}
+        />
+
         <label>Nome de usuário</label>
         <input
           type="text"

@@ -1,7 +1,5 @@
 import axios from "axios";
 
-import { UserService } from "../../services/user.service";
-
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 /* import { Context } from "../../context/Context";
@@ -14,17 +12,10 @@ export default function Login() {
 /*   const { dispatch, isFetching } = useContext(Context);
  */
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      axios.get("/post/show-posts").then(res => {
-        console.log(res);
-        const cookie = res.headers["set-cookie"];
-        console.log(cookie);
-      });
-    } catch (err) {
-      console.log(err);
-      alert("Login Fail")
-    }
+    axios.post("http://127.0.0.1:4000/user/login", {  user: { username: userRef.current.value, password: passwordRef.current.value} }).then(res => {
+      document.cookie = "";
+      document.cookie = res.data;
+    }).catch(err => console.log(err));
   };
 
   return (

@@ -12,7 +12,7 @@ const postRoutes = require("./src/router/posts.routes");
 const categoryRoutes = require("./src/router/categories.routes");
 
 app.use(morgan("dev"))
-app.use(cookieParser("alpha"));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded( { extended: false } ));
 app.use(bodyParser.json());
 app.use(cors());
