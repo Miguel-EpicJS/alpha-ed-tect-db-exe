@@ -8,8 +8,8 @@ import Register from "./pages/register/Register";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
-  const user = document.cookie !== "" ? false : true
-
+  const user = document.cookie === "" ? false : true
+  console.log(user);
   return (
     <Router>
       <TopBar />

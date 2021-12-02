@@ -1,4 +1,6 @@
 import axios from "axios";
+import Cookies from "universal-cookie";
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./register.css";
@@ -11,11 +13,26 @@ export default function Register() {
   const [error, setError] = useState(false);
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     setError(false);
-
     axios.post("http://127.0.0.1:4000/user/signup", { info: { username: username, password: password, email: email, name: name} }).then(res => {
-      document.cookie = "";
-      document.cookie = res.data;
+      const cookies = new Cookies();
+
+      const parseCookie = str =>
+        str
+          .split(';')
+          .map(v => v.split('='))
+          .reduce((acc, v) => {
+            acc[decodeURIComponent(v[0])] = decodeURIComponent(v[1]);
+            return acc;
+          }, {});
+
+      const c = parseCookie(res.data);
+
+      cookies.set("user", c.user, { path: '/', maxAge: 311040});
+
+      console.log(c);
+      console.log(res);
     }).catch(err => console.log(err));
 
   };

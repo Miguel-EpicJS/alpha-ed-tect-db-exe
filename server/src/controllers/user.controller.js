@@ -15,7 +15,8 @@ module.exports = {
                                 maxAge: 1 * 24 * 60 * 60 * 60 * 60,
                                 httpOnly: true, 
                             });
-                            res.status(200).send(res.getHeaders()['set-cookie']);
+                            const cookie = res.getHeaders()['set-cookie'];
+                            res.status(200).send(cookie);
                         } 
                         else{
                             console.log(el);
@@ -43,7 +44,8 @@ module.exports = {
                 maxAge: 1 * 24 * 60 * 60,
             });
             console.log(dbRes);
-            res.status(200).send(res.getHeaders()['set-cookie']);
+            const cookie = res.getHeaders()['set-cookie'];
+            res.status(200).send(cookie);
         });
     },
     userUpdate: async (req, res) => {
