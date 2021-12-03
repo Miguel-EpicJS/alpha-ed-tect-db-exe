@@ -29,8 +29,11 @@ export default function Register() {
 
       const c = parseCookie(res.data);
 
-      cookies.set("user", c.user, { path: '/', maxAge: 311040});
-
+      if (res.status === 200) {
+        cookies.set("user", c.user, { path: '/', maxAge: 311040});        
+      }else{
+        alert("Signup Fail");
+      }
       console.log(c);
       console.log(res);
     }).catch(err => console.log(err));

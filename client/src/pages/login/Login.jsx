@@ -26,7 +26,11 @@ export default function Login() {
 
       const c = parseCookie(res.data);
 
-      cookies.set("user", c.user, { path: '/', maxAge: 311040});
+      if (res.status === 200) {
+        cookies.set("user", c.user, { path: '/', maxAge: 311040});        
+      }else{
+        alert("Login Fail");
+      }
 
       console.log(c);
       console.log(res);
