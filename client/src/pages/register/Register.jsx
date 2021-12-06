@@ -3,6 +3,8 @@ import Cookies from "universal-cookie";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 import "./register.css";
 
 export default function Register() {
@@ -11,6 +13,8 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +42,10 @@ export default function Register() {
       console.log(res);
     }).catch(err => console.log(err));
 
+    history.push("/register");
+    history.replace("/");
+    
+    window.location.reload();
   };
 
   return (

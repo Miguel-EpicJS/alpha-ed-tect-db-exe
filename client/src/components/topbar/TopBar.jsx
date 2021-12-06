@@ -1,14 +1,25 @@
 import "./topbar.css";
+import userImg from "../../assets/images/default-user-icon-13.jpg"
+
 import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { Context } from "../../context/Context";
-const publicFolder = "http://localhost:5000/images/";
+
+import Cookies from "universal-cookie";
+import { useEffect, useState } from "react";
+
 
 export default function TopBar() {
-  const { user, dispatch } = useContext(Context);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const cookies = new Cookies();
+    setUser(cookies.get("user"));
+  }, []);
 
   const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
+    const cookies = new Cookies();
+    cookies.remove("user", {path: "/"});
+
+    window.location.reload();
   };
 
   return (
@@ -21,24 +32,24 @@ export default function TopBar() {
       <div className="top-center">
         <ul className="top-list">
           <li className="top-list-item">
-            <Link className="link" to="/">
+            <a className="link" href="/">
               INÍCIO
-            </Link>
+            </a>
           </li>
           <li className="top-list-item">
-            <Link className="link" to="/">
+            <a className="link" href="/">
               SOBRE
-            </Link>
+            </a>
           </li>
           <li className="top-list-item">
-            <Link className="link" to="/">
+            <a className="link" href="/">
               CONTATO
-            </Link>
+            </a>
           </li>
           <li className="top-list-item">
-            <Link className="link" to="/write">
+            <a className="link" href="/write">
               POSTAR
-            </Link>
+            </a>
           </li>
           <li className="top-list-item" onClick={handleLogout}>
             {user && "LOGOUT"}
@@ -47,24 +58,24 @@ export default function TopBar() {
       </div>
       <div className="top-right">
         {user ? (
-          <Link to="/settings">
+          <a href="/settings">
             <img
               className="top-right-img"
-              src={publicFolder + user.profilePic}
+              src={userImg}
               alt=""
             />
-          </Link>
+          </a>
         ) : (
           <ul className="top-list">
             <li className="top-list-item">
-              <Link className="link" to="/login">
+              <a className="link" href="/login">
                 LOGIN
-              </Link>
+              </a>
             </li>
             <li className="top-list-item">
-              <Link className="link" to="/register">
+              <a className="link" href="/register">
                 REGISTER
-              </Link>
+              </a>
             </li>
           </ul>
         )}

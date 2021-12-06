@@ -3,12 +3,15 @@ import Cookies from "universal-cookie";
 
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import "./login.css";
 
 export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
+  
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +37,11 @@ export default function Login() {
 
       console.log(c);
       console.log(res);
+
+      history.push("/login");
+      history.replace("/");
+      
+      window.location.reload();
     });
   };
 

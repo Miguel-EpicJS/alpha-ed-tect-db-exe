@@ -1,107 +1,54 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import Cookies from "universal-cookie";
+
+import { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
-import { Context } from "../../context/Context";
+import { useParams } from 'react-router-dom';
+
 import "./singlepost.css";
 
 export default function SinglePost() {
-  const location = useLocation();
-  const path = location.pathname.split("/")[2];
+  
+  const { postId } = useParams();
+
   const [post, setPost] = useState({});
-  const publicFolder = "http://localhost:5000/images/";
-  const { user } = useContext(Context);
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [updateMode, setUpdateMode] = useState(false);
-
+  const [user, setUser] = useState({});
+  
   useEffect(() => {
-    const getPost = async () => {
-      const res = await axios.get("/posts/" + path);
-      setPost(res.data);
-      setTitle(res.data.title);
-      setDesc(res.data.desc);
-    };
-    getPost();
-  }, [path]);
-
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`/posts/${post._id}`, {
-        data: { username: user.username },
-      });
-      window.location.replace("/");
-    } catch (err) {}
-  };
-
-  const handleUpdate = async () => {
-    try {
-      await axios.put(`/posts/${post._id}`, {
-        username: user.username,
-        title,
-        desc,
-      });
-      setUpdateMode(false);
-    } catch (err) {}
-  };
+    axios.get(`http://127.0.0.1:4000/post/show-post/${postId}`).then(res => setPost(res.data));
+    console.log(post);
+    const cookies = new Cookies();
+    setUser(cookies.get("user"));
+  }, []);
 
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
-        {post.photo && (
           <img
-            src={publicFolder + post.photo}
+            src={post.image_link}
             alt=""
             className="singlePostImg"
           />
-        )}
-        {updateMode ? (
-          <input
-            type="text"
-            value={title}
-            className="singlePostTitleInput"
-            autoFocus
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        ) : (
+    
           <h1 className="singlePostTitle">
-            {title}
-            {post.username === user?.username && (
-              <div className="singlePostEdit">
-                <i
-                  className="singlePostIcon far fa-edit"
-                  onClick={() => setUpdateMode(true)}></i>
-                <i
-                  className="singlePostIcon far fa-trash-alt"
-                  onClick={handleDelete}></i>
-              </div>
-            )}
+            {post.title}
           </h1>
-        )}
         <div className="singlePostInfo">
           <span className="singlePostAuthor">
-            Autor:
+            <Link className="link" to={`/user/${post.username}`}>
+              Autor: <b>{post.username}</b>
+            </Link>
+            | 
             <Link className="link" to={`/?user=${post.username}`}>
-              <b>{post.username}</b>
+              Category: <b>{post.cat}</b>
             </Link>
           </span>
-          <span className="singlePostDate">{new Date(post.createdAt)}</span>
         </div>
-        {updateMode ? (
-          <textarea
-            className="singlePostDescInput"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-          />
-        ) : (
-          <p className="singlePostDesc">{desc}</p>
-        )}
-        {updateMode && (
-          <button className="singlePostButton" onClick={handleUpdate}>
-            Atualizar
-          </button>
-        )}
-      </div>
+        <div className="singlePostText">
+          {post.content}
+        </div>
+      </div> 
     </div>
   );
 }

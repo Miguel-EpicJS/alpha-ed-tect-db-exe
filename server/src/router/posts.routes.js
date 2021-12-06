@@ -5,7 +5,7 @@ const postsController = require("../controllers/post.controller");
 const cookieMiddleware = require("../middlewares/cookie.middleware");
 
 postRoutes.get("/show-posts", postsController.getPosts);
-postRoutes.get("/show-post/:id", postsController.getPosts);
+postRoutes.get("/show-post/:id", postsController.getPost);
 
 postRoutes.post("/add-post", cookieMiddleware.verifyCookie, postsController.addPost);
 

@@ -2,26 +2,20 @@ import "./post.css";
 import { Link } from "react-router-dom";
 
 export default function Post({ post }) {
-  const publicFolder = "http://localhost:5000/images/";
   return (
     <div className="post">
-      {post.photo && (
-        <img className="postImg" src={publicFolder + post.photo} alt="" />
+      {post.image_link && (
+        <a href={`/post/${post.id}`}><img className="postImg" src={post.image_link} alt="" /></a>
       )}
       <div className="postInfo">
         <div className="postCats">
-          {post.categories.map((c) => (
-            <span className="postCat">{c.name}</span>
-          ))}
+            <span className="postCat">{post.cat}</span>
         </div>
-        <Link className="link" to={`/post/${post._id}`}>
+        <Link className="link" to={`/post/${post.id}`}>
           <span className="postTitle">{post.title}</span>
         </Link>
-        <span className="postDate">
-          {new Date(post.createdAt).toDateString()}
-        </span>
       </div>
-      <p className="postDesc">{post.desc}</p>
+      <p className="postDesc">{post.about}</p>
     </div>
   );
 }

@@ -3,29 +3,30 @@ const bcrypt = require("bcrypt");
 
 module.exports = {
     userLogin: (req, res) => {
-        const { user } = req.body;
-        console.log(req.body);
-        database.getUsersForLogin(100).then(usersDb => {
-            usersDb.rows.forEach((el, index, array) => {
-                if (el.username === user.username) {
-                    bcrypt.compare(user.password, el.password, (err, r) => {
-                        if (r === true) {
-                            console.log(usersDb.rows);
-                            res.cookie("user", JSON.stringify({ username: el.username, user_type: el.user_type }), {
-                                maxAge: 1 * 24 * 60 * 60 * 60 * 60,
-                                httpOnly: true,
-                            });
-                            const cookie = res.getHeaders()['set-cookie'];
-                            return res.status(200).send(cookie);
-                        }
-                    })
-                }
-            });
-        });
-
         try {
-            res.status(404).send("Error");
+            const { user } = req.body;
+            console.log(req.body);
+            database.getUsersForLogin(100).then(usersDb => {
+                usersDb.rows.forEach((el, index, array) => {
+                    if (el.username === user.username) {
+                        bcrypt.compare(user.password, el.password, (err, r) => {
+                            if (r === true) {
+                                console.log(usersDb.rows);
+                                res.cookie("user", JSON.stringify({ username: el.username, user_type: el.user_type }), {
+                                    maxAge: 1 * 24 * 60 * 60 * 60 * 60,
+                                    httpOnly: true,
+                                });
+                                const cookie = res.getHeaders()['set-cookie'];
+                                return res.status(200).send(cookie);
+                            }
+                        })
+                    }
+                });
+            });
+
+
         } catch (error) {
+            res.status(404).send("Error");
             console.log(error);
         }
     },
@@ -34,12 +35,12 @@ module.exports = {
             const { info } = req.body;
             info.user_type = 0;
             info.deleted = false;
-    
+
             const salt = await bcrypt.genSalt(10);
             const hash = await bcrypt.hash(info.password, salt);
-    
+
             const user = { ...info, salt: salt, password: hash };
-    
+
             console.log(user);
             database.insertUser(user).then(dbRes => {
                 res.cookie("user", JSON.stringify({ username: user.username, user_type: user.user_type }), {
@@ -48,11 +49,11 @@ module.exports = {
                 console.log(dbRes);
                 const cookie = res.getHeaders()['set-cookie'];
                 res.status(200).send(cookie);
-            });    
+            });
         } catch (error) {
             res.status(500).send("Signup fail");
         }
-        
+
     },
     userUpdate: async (req, res) => {
         const { info } = req.body;
