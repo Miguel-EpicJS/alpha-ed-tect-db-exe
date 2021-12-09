@@ -1,5 +1,5 @@
 import "./sidebar.css";
-import perfilImg from "../../assets/images/perfil-img.png";
+import perfilImg from "../../assets/images/aboutUs.jpg";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import axios from "axios";
@@ -10,7 +10,7 @@ export default function Sidebar() {
 
   useHistory(() => {
     const getCategories = async () => {
-      const response = await axios.get("/categories");
+      const response = await axios.get("http://127.0.0.1:4000/show-categories");
       setCat(response.data);
     };
     getCategories();
@@ -29,7 +29,7 @@ export default function Sidebar() {
         <span className="sidebarTitle">CATEGORIAS</span>
         <ul className="sidebarList">
           {cats.map((c) => (
-            <Link className="link" to={`/?cat=${c.name}`}>
+            <Link className="link" to={`/?cat=${c.id}`}>
               <li className="sidebarListItem">{c.name}</li>
             </Link>
           ))}

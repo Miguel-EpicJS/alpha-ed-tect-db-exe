@@ -1,11 +1,14 @@
 .singlePost {
   flex: 9;
+  background-color: black;
 }
 
 .singlePostWrapper {
-  padding: 20px;
-  padding-right: 0;
+  padding-top: 30px;
+  padding-left: 100px;
+  padding-right: 100px;
   display: flex;
+  justify-content: center;
   flex-direction: column;
 }
 
@@ -14,6 +17,7 @@
   height: 300px;
   border-radius: 5px;
   object-fit: cover;
+  padding-bottom: 50px;
 }
 
 .singlePostTitle {
@@ -21,6 +25,7 @@
   margin: 10px;
   font-family: "Lora", serif;
   font-style: 28px;
+  color: whitesmoke;
 }
 
 .singlePostTitleInput {
@@ -57,17 +62,26 @@
 
 .singlePostInfo {
   margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
   font-size: 16px;
   font-family: "Varela Round", sans-serif;
-  color: #b39656;
+  color: #cf975e;
 }
 
-.singlePostDesc {
-  color: #666;
+.singlePostAuthor {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.link {
+  padding: 10px;
+}
+
+.singlePostText {
   font-size: 18px;
   line-height: 25px;
+  color: #666;
 }
 
 .singlePostDesc::first-letter {

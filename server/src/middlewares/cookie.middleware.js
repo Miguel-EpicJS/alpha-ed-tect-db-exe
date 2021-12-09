@@ -13,13 +13,21 @@ module.exports = {
     verifyCookie: (req, res, next) => {
         const {cookies} = req;
         console.log(cookies);
+        console.log(req.body);
         if (cookies["user"]) {
             res.locals.user = JSON.parse(cookies["user"]).username;
             res.locals.type = JSON.parse(cookies["user"]).user_type;
 
             next();
-        }else{
-            res.status(200).send("You aren't logged");
+        } else if (req.body.user.id >= 0)
+        {
+            res.locals.user = req.body.user.username;
+            res.locals.type = req.body.user.user_type;
+
+            next();
+        }
+        else{
+            res.status(400).send("You aren't logged");
         }
     }
 }

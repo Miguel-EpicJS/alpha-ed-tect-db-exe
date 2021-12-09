@@ -37,16 +37,6 @@ export default function TopBar() {
             </a>
           </li>
           <li className="top-list-item">
-            <a className="link" href="/">
-              SOBRE
-            </a>
-          </li>
-          <li className="top-list-item">
-            <a className="link" href="/">
-              CONTATO
-            </a>
-          </li>
-          <li className="top-list-item">
             <a className="link" href="/write">
               POSTAR
             </a>

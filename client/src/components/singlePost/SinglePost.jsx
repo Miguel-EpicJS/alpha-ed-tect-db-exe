@@ -35,7 +35,7 @@ export default function SinglePost() {
             {post.title}
           </h1>
         <div className="singlePostInfo">
-          <span className="singlePostAuthor">
+          <div className="singlePostAuthor">
             <Link className="link" to={`/user/${post.username}`}>
               Autor: <b>{post.username}</b>
             </Link>
@@ -43,7 +43,7 @@ export default function SinglePost() {
             <Link className="link" to={`/?user=${post.username}`}>
               Category: <b>{post.cat}</b>
             </Link>
-          </span>
+          </div>
         </div>
         <div className="singlePostText">
           {post.content}

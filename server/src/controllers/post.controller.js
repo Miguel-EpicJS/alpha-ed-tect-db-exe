@@ -42,8 +42,9 @@ module.exports = {
         const {post} = req.body;
         console.log(res.locals.type);
 
-        if (res.locals.type >= 2) {
-            database.addPost(post).then(dbRes => {
+        if (res.locals.type >= 0) {
+            const aPost = {...post, validated: false, deleted: false}
+            database.addPost(aPost).then(dbRes => {
                 console.log(dbRes);
                 res.status(200).send("Post added successfully");
             });    

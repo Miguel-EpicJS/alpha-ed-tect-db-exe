@@ -26,7 +26,7 @@ module.exports = {
     getUsersForLogin: (limit) => {
         try {
             if (limit > 0 && limit < 100000) {
-                const sql = `SELECT username, password, user_type FROM "public"."ae_User" WHERE deleted = false`;
+                const sql = `SELECT id, username, password, user_type FROM "public"."ae_User" WHERE deleted = false`;
                 const result = client.query(sql);
                 return result;
             } else {

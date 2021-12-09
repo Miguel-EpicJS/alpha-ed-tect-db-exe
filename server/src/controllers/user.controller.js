@@ -12,9 +12,9 @@ module.exports = {
                         bcrypt.compare(user.password, el.password, (err, r) => {
                             if (r === true) {
                                 console.log(usersDb.rows);
-                                res.cookie("user", JSON.stringify({ username: el.username, user_type: el.user_type }), {
+                                console.log(el);
+                                res.cookie("user", JSON.stringify({ username: el.username, user_type: el.user_type, id: el.id }), {
                                     maxAge: 1 * 24 * 60 * 60 * 60 * 60,
-                                    httpOnly: true,
                                 });
                                 const cookie = res.getHeaders()['set-cookie'];
                                 return res.status(200).send(cookie);
@@ -43,7 +43,7 @@ module.exports = {
 
             console.log(user);
             database.insertUser(user).then(dbRes => {
-                res.cookie("user", JSON.stringify({ username: user.username, user_type: user.user_type }), {
+                res.cookie("user", JSON.stringify({ username: user.username, user_type: user.user_type, id: el.id }), {
                     maxAge: 1 * 24 * 60 * 60,
                 });
                 console.log(dbRes);

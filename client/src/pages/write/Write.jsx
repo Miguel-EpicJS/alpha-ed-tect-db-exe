@@ -1,53 +1,71 @@
 import "./write.css";
-import { useContext, useState } from "react";
 import axios from "axios";
-import { Context } from "../../context/Context";
+import Cookies from "universal-cookie";
+
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 export default function Write() {
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
-  const [file, setFile] = useState(null);
-  const { user } = useContext(Context);
+  const history = useHistory();
 
-  const handleSubmit = async (e) => {
+  const [isLoading, setLoading] = useState(true);
+
+  const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [image, setImage] = useState("");
+  const [desc, setDesc] = useState("");
+  const [about, setAbout] = useState("");
+
+  const [categories, setCategories] = useState([]);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    axios.get("http://127.0.0.1:4000/category/show-categories").then((res) => {
+      setCategories(res.data);
+      setLoading(false);
+      console.log(categories)
+    });
+
+    const cookies = new Cookies();
+    setUser(cookies.get("user"));
+  }, []);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const newPost = {
-      username: user.username,
-      title,
-      desc,
+    const data = {
+      post: {
+        title: title,
+        subtitle: subtitle,
+        content: desc,
+        about: about,
+        image_link: image,
+        category: 1,
+        posted_by: 1
+      },
+      user: {
+        ...user
+      }
     };
-    if (file) {
-      const data = new FormData();
-      const filename = Date.now() + file.name;
-      data.append("name", filename);
-      data.append("file", file);
-      newPost.photo = filename;
-      try {
-        await axios.post("/upload", data); //api
-      } catch (err) {}
-    }
-    try {
-      const res = await axios.post("/posts", newPost);
-      window.location.replace("/post" + res.data._id);
-    } catch (err) {}
-  };
+
+    axios.post("http://127.0.0.1:4000/post/add-post", data).then((res) => {
+      console.log(res);
+    });
+
+    history.push("/login");
+    history.replace("/");
+    
+    window.location.reload();
+  }
+
+  if (isLoading) {
+    return <div className="write">Loading...</div>;
+  }
 
   return (
     <div className="write">
-      {file && (
-        <img className="writeImg" src={URL.createObjectURL(file)} alt="" />
-      )}
       <form className="writeForm" onSubmit={handleSubmit}>
         <div className="writeFormGroup">
-          <label htmlFor="fileInput">
-            <i className="writeIcon fas fa-plus"></i>
-          </label>
-          <input
-            type="file"
-            id="fileInput"
-            style={{ display: "none" }}
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+
           <input
             type="text"
             placeholder="Título"
@@ -57,11 +75,41 @@ export default function Write() {
           />
         </div>
         <div className="writeFormGroup">
+          <input
+            type="text"
+            placeholder="Subtítulo"
+            className="writeInput"
+            autoFocus={true}
+            onChange={(e) => setSubtitle(e.target.value)}
+          />
+        </div>
+
+        <div className="writeFormGroup">
+          <input
+            type="text"
+            placeholder="Link da Imagem"
+            className="writeInput"
+            autoFocus={true}
+            onChange={(e) => setImage(e.target.value)}
+          />
+        </div>
+
+        <div className="writeFormGroup">
+          <textarea
+            placeholder="Conte um resumo..."
+            type="text"
+            className="writeInput writeText"
+            onChange={(e) => setAbout(e.target.value)}>
+          </textarea>
+        </div>
+
+        <div className="writeFormGroup">
           <textarea
             placeholder="Conte sua história..."
             type="text"
-            className="writeInput writeText">
-            onChange={(e) => setDesc(e.target.value)}
+            className="writeInput writeText"
+            onChange={(e) => setDesc(e.target.value)}>
+
           </textarea>
         </div>
         <button className="writeSubmit" type="submit">
