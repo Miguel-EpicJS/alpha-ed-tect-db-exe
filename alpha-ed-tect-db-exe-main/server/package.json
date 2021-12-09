@@ -1,0 +1,29 @@
+{
+  "name": "alpha-ed-tect-db-exe",
+  "version": "1.0.0",
+  "description": "Exercicio de banco de dados(grupo), alpha ed tech",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Miguel-EpicJS/alpha-ed-tect-db-exe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Miguel-EpicJS/alpha-ed-tect-db-exe/issues"
+  },
+  "homepage": "https://github.com/Miguel-EpicJS/alpha-ed-tect-db-exe#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.7.1"
+  }
+}
