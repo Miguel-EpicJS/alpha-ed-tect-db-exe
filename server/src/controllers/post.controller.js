@@ -3,7 +3,7 @@ const database = require("../models/database.model");
 module.exports = {
     getPosts: (req, res) => {
         try {
-            database.getPosts(1000).then(dbPosts => {
+            database.getPostsForFront(1000).then(dbPosts => {
                 const posts = dbPosts.rows;
                 res.status(200).send(posts);
             });        

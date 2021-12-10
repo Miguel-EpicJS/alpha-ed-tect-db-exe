@@ -1,19 +1,19 @@
 import "./sidebar.css";
 import perfilImg from "../../assets/images/aboutUs.jpg";
-import { useState } from "react";
-import { useHistory } from "react-router";
+import { useEffect, useState } from "react";
+
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   const [cats, setCat] = useState([]);
 
-  useHistory(() => {
-    const getCategories = async () => {
-      const response = await axios.get("http://127.0.0.1:4000/show-categories");
-      setCat(response.data);
-    };
-    getCategories();
+  useEffect(() => {
+    axios.get("http://127.0.0.1:4000/category/show-categories").then(res => {
+      console.log(res.data);
+      setCat(res.data);
+    });
+    
   }, []);
   return (
     <div className="sidebar">

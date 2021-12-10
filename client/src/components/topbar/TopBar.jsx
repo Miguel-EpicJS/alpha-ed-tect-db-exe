@@ -41,6 +41,11 @@ export default function TopBar() {
               POSTAR
             </a>
           </li>
+          <li className="top-list-item">
+            <a className="link" href="/validate">
+              {user && user.user_type > 1 && "VALIDATE"}
+            </a>
+          </li>
           <li className="top-list-item" onClick={handleLogout}>
             {user && "LOGOUT"}
           </li>
