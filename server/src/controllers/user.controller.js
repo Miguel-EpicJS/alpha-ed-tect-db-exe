@@ -61,8 +61,8 @@ module.exports = {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(info.password, salt);
 
-        const user = { ...info, salt: salt, password: hash, id: req.params.id };
-
+        const user = { ...info, salt: salt, password: hash, id: req.params.id, user_type: req.body.user.user_type };
+        console.log(req.body.user);
         if (res.locals.type >= 2) {
             database.updateUser(user);
             res.status(200).send("Update completed");

@@ -1,46 +1,58 @@
+import Cookies from "universal-cookie";
 import axios from "axios";
-import { useContext, useState } from "react";
+
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import Sidebar from "../../components/siderbar/Sidebar";
-import { Context } from "../../context/Context";
+
 import "./settings.css";
+import perfilImg from "../../assets/images/aboutUs.jpg";
 
 export default function Settings() {
-  const [file, setFile] = useState(null);
+  const history = useHistory();
+  
+  
   const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { user, dispatch } = useContext(Context);
-  const publicFolder = "http://localhost:5000/images/";
+  const [user, setUser] = useState({});
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    const cookies = new Cookies();
+    setUser(cookies.get("user"));
+
+    setIsLoading(false);
+  }, []);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({ type: "UPDATE_START" });
-    const updatedUser = {
-      userId: user._id,
-      username,
-      email,
-      password,
+    const data = {
+      info: {
+        username: username,
+        password: password,
+        email: email,
+        name: name
+      },
+      user: {
+        ...user
+      }
     };
-    if (file) {
-      const data = new FormData();
-      const filename = Date.now() + file.name;
-      data.append("name", filename);
-      data.append("file", file);
-      updatedUser.profilePic = filename;
-      try {
-        await axios.post("/upload", data); //api
-      } catch (err) {}
-    }
-    try {
-      const res = await axios.put("/users/" + user._id, updatedUser);
-      setSuccess(true);
-      dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
-    } catch (err) {
-      dispatch({ type: "UPDATE_FAIL" });
-    }
-  };
+
+    axios.put(`http://127.0.0.1:4000/user/update-user/${user.id}`, data).then((res) => {
+      console.log(res);
+    });
+    setSuccess(true);
+  }
+
+  if (isLoading) {
+    return <div className="write">Loading...</div>;
+  }
 
   return (
     <div className="settings">
@@ -53,19 +65,16 @@ export default function Settings() {
           <label>Foto do perfil</label>
           <div className="settingsPP">
             <img
-              src={file ? URL.createObjectURL(file) : publicFolder+user.profilePic}
+              src={perfilImg}
               alt=""
             />
-            <label htmlFor="fileInput">
-              <i className="settingsPPIcon far fa-user-circle"></i>
-            </label>
-            <input
-              type="file"
-              id="fileInput"
-              style={{ display: "none" }}
-              onChange={(e) => setFile(e.target.files[0])}
-            />
           </div>
+          <label>Nome Completo</label>
+          <input
+            type="text"
+            placeholder={user.name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <label>Nome de usuário</label>
           <input
             type="text"
