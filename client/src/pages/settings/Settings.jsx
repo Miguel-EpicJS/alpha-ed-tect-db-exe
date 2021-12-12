@@ -18,7 +18,7 @@ export default function Settings() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const [user, setUser] = useState({});
@@ -46,8 +46,11 @@ export default function Settings() {
 
     axios.put(`http://127.0.0.1:4000/user/update-user/${user.id}`, data).then((res) => {
       console.log(res);
+    }).catch(function (error) {
+      setSuccess("error");
+      console.log(error);
     });
-    setSuccess(true);
+    setSuccess("ok");
   }
 
   if (isLoading) {
@@ -95,7 +98,7 @@ export default function Settings() {
           <button className="settingsSubmit" type="submit">
             Atualizar
           </button>
-          {success && (
+          {success === "ok" && (
             <span
               style={{
                 color: "green",
@@ -103,6 +106,16 @@ export default function Settings() {
                 marginTop: "20px",
               }}>
               Atualizado com sucesso!
+            </span>
+          )}
+          {success === "error" && (
+            <span
+              style={{
+                color: "red",
+                textAlign: "center",
+                marginTop: "20px",
+              }}>
+              Ouve um erro!
             </span>
           )}
         </form>

@@ -1,6 +1,7 @@
 import "./write.css";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import Select from "react-select";
 
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -15,9 +16,12 @@ export default function Write() {
   const [image, setImage] = useState("");
   const [desc, setDesc] = useState("");
   const [about, setAbout] = useState("");
+  const [postcat, setPostcat] = useState(1);
 
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState({});
+
+  const [options, setOptions] = useState([]);
 
   useEffect(() => {
     axios.get("http://127.0.0.1:4000/category/show-categories").then((res) => {
@@ -30,6 +34,19 @@ export default function Write() {
     setUser(cookies.get("user"));
   }, []);
 
+  useEffect(() => {
+    setOptions([]);
+    categories.forEach(category => {
+      const lastOptions = options;
+      const option = {
+        value: category.id,
+        label: category.name
+      };
+      lastOptions.push(option);
+      setOptions(lastOptions);
+    });
+  }, [categories]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
@@ -39,8 +56,8 @@ export default function Write() {
         content: desc,
         about: about,
         image_link: image,
-        category: 1,
-        posted_by: 1
+        category: postcat,
+        posted_by: user.id
       },
       user: {
         ...user
@@ -49,12 +66,13 @@ export default function Write() {
 
     axios.post("http://127.0.0.1:4000/post/add-post", data).then((res) => {
       console.log(res);
-    });
-
-    history.push("/login");
-    history.replace("/");
+      history.push("/login");
+      history.replace("/");
     
-    window.location.reload();
+      window.location.reload();
+    }).catch(err => {
+
+    });
   }
 
   if (isLoading) {
@@ -92,6 +110,10 @@ export default function Write() {
             autoFocus={true}
             onChange={(e) => setImage(e.target.value)}
           />
+        </div>
+
+        <div className="writeFormGroup">
+          <Select options={options} placeholder="Category" onChange={(e) => setPostcat(e.value)} />
         </div>
 
         <div className="writeFormGroup">
