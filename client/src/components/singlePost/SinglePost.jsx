@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from "universal-cookie";
 
 import { useEffect, useState } from "react";
 
@@ -13,14 +12,11 @@ export default function SinglePost() {
   const { postId } = useParams();
 
   const [post, setPost] = useState({});
-  const [user, setUser] = useState({});
   
   useEffect(() => {
     axios.get(`http://127.0.0.1:4000/post/show-post/${postId}`).then(res => setPost(res.data));
     console.log(post);
-    const cookies = new Cookies();
-    setUser(cookies.get("user"));
-  }, []);
+  });
 
   return (
     <div className="singlePost">

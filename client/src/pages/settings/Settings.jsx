@@ -2,16 +2,13 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 
 import Sidebar from "../../components/siderbar/Sidebar";
 
 import "./settings.css";
 import perfilImg from "../../assets/images/aboutUs.jpg";
 
-export default function Settings() {
-  const history = useHistory();
-  
+export default function Settings() { 
   
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");

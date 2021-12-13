@@ -28,24 +28,26 @@ export default function Write() {
       setCategories(res.data);
       setLoading(false);
       console.log(categories)
+      const cookies = new Cookies();
+      setUser(cookies.get("user"));
     });
-
-    const cookies = new Cookies();
-    setUser(cookies.get("user"));
-  }, []);
+  });
 
   useEffect(() => {
-    setOptions([]);
-    categories.forEach(category => {
-      const lastOptions = options;
-      const option = {
-        value: category.id,
-        label: category.name
-      };
-      lastOptions.push(option);
-      setOptions(lastOptions);
-    });
-  }, [categories]);
+    const run = () => {
+      setOptions([]);
+      categories.forEach(category => {
+        const lastOptions = options;
+        const option = {
+          value: category.id,
+          label: category.name
+        };
+        lastOptions.push(option);
+        setOptions(lastOptions);
+      });
+    }
+    run();
+  }, [categories, options]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,7 +70,7 @@ export default function Write() {
       console.log(res);
       history.push("/login");
       history.replace("/");
-    
+
       window.location.reload();
     }).catch(err => {
 

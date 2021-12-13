@@ -1,8 +1,6 @@
 import "./topbar.css";
 import userImg from "../../assets/images/default-user-icon-13.jpg"
 
-import { Link } from "react-router-dom";
-
 import Cookies from "universal-cookie";
 import { useEffect, useState } from "react";
 
