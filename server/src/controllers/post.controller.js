@@ -14,6 +14,19 @@ module.exports = {
             res.status(500).send("Server error in posts controller");
         }
     },
+    getAllPosts: (req, res) => {
+        try {
+            database.getPosts(1000).then(dbPosts => {
+                const posts = dbPosts.rows;
+                res.status(200).send(posts);
+            });        
+            
+        } catch (error) {
+            console.log(error);
+
+            res.status(500).send("Server error in posts controller");
+        }
+    },
     getPost: (req, res) => {
         try {
             let submit = false;
@@ -63,7 +76,18 @@ module.exports = {
         }else{
             res.status(403).send("Permission denied, you need to be an admin")
         }
-        
+    },
+    validatePost: async (req, res) => {
+        const {post} = req.body;
+ 
+        const updatePost = {...post, id: req.params.id};
+
+        if (res.locals.type >= 2) {
+            database.validatePost(updatePost);
+            res.status(200).send("Update completed");    
+        }else{
+            res.status(403).send("Permission denied, you need to be an admin")
+        }
     },
     postDelete: async (req, res) => {
         if (res.locals.type >= 2) {

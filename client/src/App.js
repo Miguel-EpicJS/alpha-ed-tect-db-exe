@@ -5,6 +5,7 @@ import TopBar from "../src/components/topbar/TopBar";
 import Single from "./pages/single/Single";
 import Write from "./pages/write/Write";
 import Settings from "./pages/settings/Settings";
+import Validate from "./pages/validate/Validate";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/login">{user ? <Home /> : <Login />}</Route>
         <Route path="/write">{user ? <Write /> : <Register />}</Route>
         <Route path="/settings">{user ? <Settings /> : <Register />}</Route>
+        <Route path="/validate">{user ? <Validate /> : <Login />}</Route>
         <Route path="/post/:postId">
           <Single />
         </Route>

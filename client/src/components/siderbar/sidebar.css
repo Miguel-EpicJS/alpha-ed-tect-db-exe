@@ -45,10 +45,9 @@
 }
 
 .sidebarListItem{
-    display: inline-block;
     width: 50%;
-    margin-top: 15px;
     margin-left: -50px;
+    color:#862486;
     cursor: pointer;
 }
 

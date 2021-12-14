@@ -5,11 +5,13 @@ const postsController = require("../controllers/post.controller");
 const cookieMiddleware = require("../middlewares/cookie.middleware");
 
 postRoutes.get("/show-posts", postsController.getPosts);
+postRoutes.get("/show-all-posts", postsController.getAllPosts);
 postRoutes.get("/show-post/:id", postsController.getPost);
 
 postRoutes.post("/add-post", cookieMiddleware.verifyCookie, postsController.addPost);
 
 postRoutes.put("/update-post/:id", cookieMiddleware.verifyCookie, postsController.postUpdate);
+postRoutes.put("/validate-post/:id", cookieMiddleware.verifyCookie, postsController.validatePost);
 
 postRoutes.delete("/delete-post/:id", cookieMiddleware.verifyCookie, postsController.postDelete);
 

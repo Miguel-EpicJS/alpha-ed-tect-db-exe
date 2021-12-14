@@ -149,10 +149,24 @@ module.exports = {
             return error;
         }
     },
+    validatePost: (post) => {
+        try {
+            if (post) {
+                const sql = `UPDATE "public"."ae_Posts" SET validated = $1, validated_by = $2 WHERE id = $3`;
+                client.query(sql, [ true, post.validated_by, post.id]);
+                return true;
+            } else {
+                new Error("You need to pass a valid post");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
     getPosts: (limit) => {
         try {
             if (limit > 0 && limit < 100000) {
-                const sql = `SELECT posts.id, posts.title, posts.subtitle, posts.content, posts.about, posts.image_link, cat.name as cat, cat.description as cat_desc, userTable.username FROM "public"."ae_Posts" AS posts INNER JOIN "public"."ae_Category" AS cat ON cat.id = posts.category INNER JOIN "public"."ae_User" AS userTable ON userTable.id = posts.posted_by LIMIT $1`;
+                const sql = `SELECT posts.id, posts.title, posts.subtitle, posts.content, posts.about, posts.image_link, posts.validated, cat.name as cat, cat.description as cat_desc, userTable.username FROM "public"."ae_Posts" AS posts INNER JOIN "public"."ae_Category" AS cat ON cat.id = posts.category INNER JOIN "public"."ae_User" AS userTable ON userTable.id = posts.posted_by LIMIT $1`;
                 const result = client.query(sql, [limit]);
                 return result;
             } else {
