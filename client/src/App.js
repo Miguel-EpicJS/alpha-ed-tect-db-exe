@@ -13,15 +13,12 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function App() {
-
   const [user, setUser] = useState({});
 
   useEffect(() => {
     const cookies = new Cookies();
     setUser(cookies.get("user"));
   }, []);
-
-  console.log(user);
 
   return (
     <Router>

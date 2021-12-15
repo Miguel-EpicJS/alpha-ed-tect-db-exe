@@ -9,11 +9,9 @@ export default function Sidebar() {
   const [cats, setCat] = useState([]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:4000/category/show-categories").then(res => {
-      console.log(res.data);
+    axios.get("http://127.0.0.1:4000/category/show-categories").then((res) => {
       setCat(res.data);
     });
-    
   }, []);
   return (
     <div className="sidebar">

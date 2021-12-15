@@ -31,7 +31,7 @@ export default function Write() {
       const cookies = new Cookies();
       setUser(cookies.get("user"));
     });
-  },[]);
+  },[categories]);
 
   useEffect(() => {
     const run = () => {
