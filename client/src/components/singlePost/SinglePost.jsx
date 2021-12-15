@@ -16,7 +16,7 @@ export default function SinglePost() {
   useEffect(() => {
     axios.get(`http://127.0.0.1:4000/post/show-post/${postId}`).then(res => setPost(res.data));
     console.log(post);
-  });
+  },[]);
 
   return (
     <div className="singlePost">
