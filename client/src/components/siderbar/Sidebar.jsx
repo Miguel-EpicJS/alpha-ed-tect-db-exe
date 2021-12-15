@@ -1,5 +1,5 @@
 import "./sidebar.css";
-import perfilImg from "../../assets/images/aboutUs.jpg";
+import perfilImg from "../../assets/images/formandoMiguel.jpeg";
 import { useEffect, useState } from "react";
 
 import axios from "axios";
