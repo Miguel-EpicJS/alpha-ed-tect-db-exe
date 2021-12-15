@@ -6,7 +6,7 @@ export default function Header() {
     <div className="header">
       <div className="headerTitles">
         <span className="headerTittleSm">Games & Notícias</span>
-        <span className="headerTittleLg">Alpha Games</span>
+        <span className="headerTittleLg">NooBest</span>
       </div>
       <img
         className="headerImg"

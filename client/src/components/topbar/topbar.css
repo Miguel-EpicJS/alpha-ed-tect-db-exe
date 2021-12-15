@@ -36,26 +36,27 @@
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+  padding-top: 5px;
 }
 
-.top-list{
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.top-list {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.top-list-item{
-    margin-right: 20px;
-    font-size: 18px;
-    font-weight: 300;
-    cursor: pointer;
+.top-list-item {
+  margin-right: 20px;
+  font-size: 18px;
+  font-weight: 300;
+  cursor: pointer;
 }
 
-.topSearchIcon{
-    font-size: 18px;
-    color: #666;
-    cursor: pointer;
-    margin-left:  15px;
+.topSearchIcon {
+  font-size: 18px;
+  color: #666;
+  cursor: pointer;
+  margin-left: 15px;
 }
