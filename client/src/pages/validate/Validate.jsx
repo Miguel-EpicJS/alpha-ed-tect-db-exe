@@ -3,36 +3,20 @@ import Cookies from "universal-cookie";
 
 import { useEffect, useState } from "react";
 
-import Sidebar from "../../components/siderbar/Sidebar";
-
 import "./validate.css";
 
 export default function Validate() {
   const [isLoading, setIsLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     axios
       .get("http://127.0.0.1:4000/post/show-all-posts")
       .then((res) => setPosts(res.data));
-    const cookies = new Cookies();
-    setUser(cookies.get("user"));
-    setIsLoading(false);
+    actions();
   }, []);
-
-  const cardClick = (el) => {
-    if (el.target.classList.contains("open")) {
-      el.target.classList.remove("open");
-      el.target.classList.remove("shadow-2");
-      el.target.classList.add("shadow-1");
-    } else {
-      el.target.classList.remove("open");
-      el.target.classList.remove("shadow-2");
-      el.target.classList.add("open");
-      el.target.classList.add("shadow-2");
-    }
-  };
 
   const validatePost = (post) => {
     axios
@@ -41,44 +25,27 @@ export default function Validate() {
         user: user,
       })
       .then((res) => {
-        console.log(res);
+        setShow(false);
+        window.location.reload();
       });
   };
 
-  const renderCards = () => {
-    return posts.map((post) => {
-      if (post.validated === false) {
-        return (
-          <div
-            className="card shadow-1"
-            onClick={(el) => {
-              cardClick(el);
-            }}
-            key={post.id}
-          >
-            Title: {post.title} <br />
-            <div className="open-show">
-              <button
-                className="validateSubmit"
-                onClick={() => validatePost(post)}
-              >
-                Validate
-              </button>
-            </div>
-          </div>
-        );
-      } else {
-        return <></>;
-      }
+  /*  const deletePost = (post) => {
+    axios.delete(`http://127.0.0.1:4000/post/delete-post/${post.id}`, {
+      post: { ...post, deleted: true }
     });
-  };
+    setPosts ([]);
+    window.location.reload();
+  }; */
 
-  if (isLoading) {
-    return <div className="validate">Loading...</div>;
+  function actions() {
+    const cookies = new Cookies();
+    setUser(cookies.get("user"));
+    setIsLoading(false);
   }
 
-  if (user.user_type <= 1) {
-    return <div className="validate">You need to be an admin</div>;
+  if (isLoading) {
+    return <div className="validate">Carregando...</div>;
   }
 
   return (
@@ -88,10 +55,36 @@ export default function Validate() {
           <span className="validateUpdateTitle">Validar Posts</span>
         </div>
         <div className="all">
-          <div className="cards">{renderCards()}</div>
+          <div className="cards">
+            {posts.map((post) => {
+              if (post.validated === false) {
+                return (
+                  <div className="container-validate">
+                    <img src={post.image_link} alt={post.title} />
+                    <h1>Título: {post.title}</h1>
+                    <p>Conteúdo: {post.content}</p>
+                    {show ? (
+                      <button onClick={() => validatePost(post)}>
+                        Validar
+                      </button>
+                    ) : (
+                      <></>
+                    )}
+                    {/*                     <button
+                      key={post.id}
+                      onClick={() => deletePost(post)}
+                      style={{ backgroundColor: "red" }}
+                    >
+                      Deletar
+                    </button>
+ */}{" "}
+                  </div>
+                );
+              }
+            })}
+          </div>
         </div>
       </div>
-      <Sidebar />
     </div>
   );
 }

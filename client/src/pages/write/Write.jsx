@@ -27,11 +27,10 @@ export default function Write() {
     axios.get("http://127.0.0.1:4000/category/show-categories").then((res) => {
       setCategories(res.data);
       setLoading(false);
-      console.log(categories)
       const cookies = new Cookies();
       setUser(cookies.get("user"));
     });
-  },[categories]);
+  },[]);
 
   useEffect(() => {
     const run = () => {
