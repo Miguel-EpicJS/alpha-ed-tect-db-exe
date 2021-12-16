@@ -9,16 +9,25 @@ export default function Sidebar() {
   const [cats, setCat] = useState([]);
   const [catCount, setCatCount] = useState([]);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     axios.get("http://127.0.0.1:4000/category/show-categories").then((res) => {
       setCat(res.data);
+      
     });
     
     axios.get("http://127.0.0.1:4000/category/count-categories").then((res) => {
       setCatCount(res.data);
+      setLoading(false);  
     });
 
   }, []);
+
+  if (loading) {
+    return <div><p>Loading...</p></div>
+  }
+
   return (
     <div className="sidebar">
       <div className="sidebarItem">
