@@ -64,5 +64,11 @@ module.exports = {
         }else {
             res.status(403).send("You are not an admin")
         }        
+    },
+    countCategories: async (req, res) => {
+        database.countCategory(1).then(dbRes => {
+            console.log(dbRes);
+            res.status(200).send(dbRes.rows);
+        });     
     }
 }

@@ -135,6 +135,21 @@ module.exports = {
             return error;
         }
     },
+    countCategory: (limit) => {
+        try {
+            if (limit > 0 && limit < 100000) {
+                const sql = `SELECT count(*) as catCount  FROM "public"."ae_Category" LIMIT $1`;
+                const result = client.query(sql, [limit]);
+                return result;
+            } else {
+                new Error("The value is bellow 0, or is above 100000 or isn't a number");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+
+        }
+    },
     getPostsForFront: (limit) => {
         try {
             if (limit > 0 && limit < 100000) {

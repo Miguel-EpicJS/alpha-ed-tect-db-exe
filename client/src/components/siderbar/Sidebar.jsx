@@ -7,11 +7,17 @@ import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   const [cats, setCat] = useState([]);
+  const [catCount, setCatCount] = useState([]);
 
   useEffect(() => {
     axios.get("http://127.0.0.1:4000/category/show-categories").then((res) => {
       setCat(res.data);
     });
+    
+    axios.get("http://127.0.0.1:4000/category/count-categories").then((res) => {
+      setCatCount(res.data);
+    });
+
   }, []);
   return (
     <div className="sidebar">
@@ -24,7 +30,7 @@ export default function Sidebar() {
         </p>
       </div>
       <div className="sidebarItem">
-        <span className="sidebarTitle">CATEGORIAS</span>
+        <span className="sidebarTitle">CATEGORIAS({catCount[0].catcount})</span>
         <ul className="sidebarList">
           {cats.map((c) => (
             <Link className="link" to={`/?cat=${c.id}`} key={c.name}>
