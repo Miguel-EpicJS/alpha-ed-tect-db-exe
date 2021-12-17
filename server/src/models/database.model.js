@@ -181,7 +181,7 @@ module.exports = {
     getPosts: (limit) => {
         try {
             if (limit > 0 && limit < 100000) {
-                const sql = `SELECT posts.id, posts.title, posts.subtitle, posts.content, posts.about, posts.image_link, posts.validated, cat.name as cat, cat.description as cat_desc, userTable.username FROM "public"."ae_Posts" AS posts INNER JOIN "public"."ae_Category" AS cat ON cat.id = posts.category INNER JOIN "public"."ae_User" AS userTable ON userTable.id = posts.posted_by LIMIT $1`;
+                const sql = `SELECT posts.id, posts.title, posts.subtitle, posts.content, posts.about, posts.image_link, posts.validated, posts.deleted, cat.name as cat, cat.description as cat_desc, userTable.username FROM "public"."ae_Posts" AS posts INNER JOIN "public"."ae_Category" AS cat ON cat.id = posts.category INNER JOIN "public"."ae_User" AS userTable ON userTable.id = posts.posted_by LIMIT $1`;
                 const result = client.query(sql, [limit]);
                 return result;
             } else {

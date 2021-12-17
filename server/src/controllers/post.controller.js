@@ -90,11 +90,12 @@ module.exports = {
         }
     },
     postDelete: async (req, res) => {
+        console.log(req.body);
+        console.log(req.params);
         if (res.locals.type >= 2) {
-            database.deletePost(req.params.id).then(dbRes => {
-                console.log(dbRes);
-                res.status(200).send("Post deleted successfully");
-            });    
+            database.deletePost(req.params.id);  
+            res.status(200).send("Post deleted successfully");
+
         }else {
             res.status(403).send("You are not an admin")
         }        

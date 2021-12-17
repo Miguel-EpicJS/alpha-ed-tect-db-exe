@@ -16,6 +16,7 @@ export default function Validate() {
       .get("http://127.0.0.1:4000/post/show-all-posts")
       .then((res) => setPosts(res.data));
     actions();
+    console.log(posts);
   }, []);
 
   const validatePost = (post) => {
@@ -30,17 +31,17 @@ export default function Validate() {
       });
   };
 
-  /*  const deletePost = (post) => {
-    axios.delete(`http://127.0.0.1:4000/post/delete-post/${post.id}`, {
-      post: { ...post, deleted: true }
+  const deletePost = (id) => {
+    axios.delete(`http://127.0.0.1:4000/post/delete-post/${id}`, { data: {user: user}}).then((res) => {
+      console.log(res);
+      window.location.reload();
     });
-    setPosts ([]);
-    window.location.reload();
-  }; */
+  };
 
   function actions() {
     const cookies = new Cookies();
     setUser(cookies.get("user"));
+    console.log(user);
     setIsLoading(false);
   }
 
@@ -57,7 +58,7 @@ export default function Validate() {
         <div className="all">
           <div className="cards">
             {posts.map((post) => {
-              if (post.validated === false) {
+              if (post.validated === false && post.deleted === true) {
                 return (
                   <div className="container-validate">
                     <img src={post.image_link} alt={post.title} />
@@ -68,18 +69,20 @@ export default function Validate() {
                         Validar
                       </button>
                     ) : (
-                      <></>
-                    )}
-                    {/*                     <button
+                        <></>
+                      )}
+                    {                    <button
                       key={post.id}
-                      onClick={() => deletePost(post)}
+                      onClick={() => deletePost(post.id)}
                       style={{ backgroundColor: "red" }}
                     >
                       Deletar
                     </button>
- */}{" "}
+                    }{" "}
                   </div>
                 );
+              } else {
+                return "";
               }
             })}
           </div>
