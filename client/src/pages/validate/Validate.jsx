@@ -58,9 +58,9 @@ export default function Validate() {
         <div className="all">
           <div className="cards">
             {posts.map((post) => {
-              if (post.validated === false && post.deleted === true) {
+              if (post.validated === false && post.deleted === false) {
                 return (
-                  <div className="container-validate">
+                  <div key={post.id} className="container-validate">
                     <img src={post.image_link} alt={post.title} />
                     <h1>Título: {post.title}</h1>
                     <p>Conteúdo: {post.content}</p>
