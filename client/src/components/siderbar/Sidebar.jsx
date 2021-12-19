@@ -34,8 +34,7 @@ export default function Sidebar() {
         <span className="sidebarTitle">SOBRE NÓS</span>
         <img src={perfilImg} alt="" />
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus,
-          magnam ab autem ullam amet reprehenderit.
+          Carlos Moreira e Miguel Junqueira são aspirantes do projeto AlphaEdTech e apresentam esse blog com o intuito de aprofundar seus conhecimentos em banco de dados, front-end e back-end.   
         </p>
       </div>
       <div className="sidebarItem">
