@@ -8,6 +8,20 @@ const client = new Client({
 
 client.connect();
 
+const getPostLike = (id) => {
+    try {
+        if (id) {
+            const sql = `SELECT id, likes FROM "public"."ae_Posts" WHERE id = $1`;
+            const result = client.query(sql, [id]);
+            result.then(res => console.log(res))
+            return result;
+        }
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 module.exports = {
     getUsers: (limit) => {
         try {
@@ -196,7 +210,7 @@ module.exports = {
     addPost: (post) => {
         try {
             if (post) {
-                const sql = `INSERT INTO "public"."ae_Posts" ("title", "subtitle", "content", "about", "image_link", "posted_by", "validated", "validated_by", "category", "deleted") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+                const sql = `INSERT INTO "public"."ae_Posts" ("title", "subtitle", "content", "about", "image_link", "posted_by", "validated", "validated_by", "category", "deleted", "likes") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 0)`;
                 const result = client.query(sql, [post.title, post.subtitle, post.content, post.about, post.image_link, post.posted_by, post.validated, post.validated_by, post.category, false]);
                 return result;
             }
@@ -217,6 +231,34 @@ module.exports = {
         } catch (error) {
             console.log(error);
             return error;
+        }
+    },
+    addPostLike: (id) => {
+        try {
+            if (id) {
+                getPostLike(id).then(res => {
+                    const sql = `UPDATE "public"."ae_Posts" SET likes = $1 WHERE id = $2`
+                    client.query(sql, [ parseInt(res.rows[0].likes) + 1, id]);
+                    return true;
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    },
+    removePostLike: (id) => {
+        try {
+            if (id) {
+                getPostLike(id).then(res => {
+                    const sql = `UPDATE "public"."ae_Posts" SET likes = $1 WHERE id = $2`
+                    client.query(sql, [ parseInt(res.rows[0].likes) - 1, id]);
+                    return true;
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            return false;
         }
     },
     deletePost: (post) => {

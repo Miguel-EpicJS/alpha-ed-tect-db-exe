@@ -89,6 +89,26 @@ module.exports = {
             res.status(403).send("Permission denied, you need to be an admin")
         }
     },
+    addPostLike: async (req, res) => {
+        const id = req.params.id;
+
+        if (res.locals.type >= 0) {
+            database.addPostLike(id);
+            res.status(200).send("Liked successfully");
+        }else{
+            res.status(403).send("Permission denied");
+        }
+    },
+    removePostLike: async (req, res) => {
+        const id = req.params.id;
+        console.log(id);
+        if (res.locals.type >= 0) {
+            database.removePostLike(id);
+            res.status(200).send("Disliked successfully");
+        }else{
+            res.status(403).send("Permission denied");
+        }
+    },
     postDelete: async (req, res) => {
         console.log(req.body);
         console.log(req.params);

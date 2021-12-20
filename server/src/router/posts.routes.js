@@ -9,6 +9,8 @@ postRoutes.get("/show-all-posts", postsController.getAllPosts);
 postRoutes.get("/show-post/:id", postsController.getPost);
 
 postRoutes.post("/add-post", cookieMiddleware.verifyCookie, postsController.addPost);
+postRoutes.post("/add-post-like/:id", cookieMiddleware.verifyCookie, postsController.addPostLike);
+postRoutes.post("/remove-post-like/:id", cookieMiddleware.verifyCookie, postsController.removePostLike);
 
 postRoutes.put("/update-post/:id", cookieMiddleware.verifyCookie, postsController.postUpdate);
 postRoutes.put("/validate-post/:id", cookieMiddleware.verifyCookie, postsController.validatePost);
