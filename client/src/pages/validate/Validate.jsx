@@ -34,7 +34,6 @@ export default function Validate() {
   const deletePost = (id) => {
     axios.delete(`http://127.0.0.1:4000/post/delete-post/${id}`, { data: {user: user}}).then((res) => {
       console.log(res);
-      window.location.reload();
     });
   };
 

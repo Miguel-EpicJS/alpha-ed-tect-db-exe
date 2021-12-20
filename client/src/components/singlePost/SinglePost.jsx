@@ -2,7 +2,7 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
-import { AiFillLike } from "react-icons/ai"
+import { BsHandThumbsUp } from "react-icons/bs"
 
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
@@ -68,7 +68,7 @@ export default function SinglePost() {
             </Link>
             |
             <button className="link icon" onClick={() => { likeButton()}}>
-              <b className={`${liked === true ? "liked" : ""}`}><AiFillLike /></b>
+              <b className={`${liked === true ? "liked" : ""}`}><BsHandThumbsUp /></b>
             </button>
           </div>
         </div>
