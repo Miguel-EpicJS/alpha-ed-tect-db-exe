@@ -2,6 +2,7 @@
   flex: 9;
   height: 100%;
   background-color: black;
+  padding-bottom: 50px;
 }
 
 .singlePostWrapper {
@@ -80,9 +81,10 @@
 }
 
 .singlePostText {
-  font-size: 18px;
   line-height: 25px;
-  color: #666;
+  color: #aaa;
+  font-size: 24px;
+  line-height: 40px;
 }
 
 .singlePostDesc::first-letter {
@@ -112,4 +114,15 @@
   cursor: pointer;
   align-self: flex-end;
   margin-top: 20px;
+}
+
+.icon{
+  background: transparent;
+  border: transparent;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.liked{
+  color: #66a0f7;
 }

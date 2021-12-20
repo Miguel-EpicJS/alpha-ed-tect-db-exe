@@ -1,6 +1,8 @@
+import Cookies from "universal-cookie";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
+import { AiFillLike } from "react-icons/ai"
 
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
@@ -11,11 +13,37 @@ export default function SinglePost() {
   
   const { postId } = useParams();
 
+  const [user, setUser] = useState({});
+
   const [post, setPost] = useState({});
+  const [liked, setLiked] = useState(false);
   
   useEffect(() => {
     axios.get(`http://127.0.0.1:4000/post/show-post/${postId}`).then(res => setPost(res.data));
+
+    const cookies = new Cookies();
+    setUser(cookies.get("user"));
+
+    if (localStorage.getItem("liked") === undefined) {
+      localStorage.setItem("liked", "false");
+    }else{
+      setLiked(JSON.parse(localStorage.getItem("liked")));
+    }
+
   },[postId]);
+
+  const likeButton = () => {
+    if (liked === false) {
+      axios.post(`http://127.0.0.1:4000/post/add-post-like/${postId}`, { user: user }).then(res => console.log(res));      
+      localStorage.setItem("liked", "true");
+    }else{
+      axios.post(`http://127.0.0.1:4000/post/remove-post-like/${postId}`, { user: user }).then(res => console.log(res));    
+      localStorage.setItem("liked", "false");
+    }
+
+    setLiked(!liked);
+    console.log(liked);
+  }
 
   return (
     <div className="singlePost">
@@ -38,6 +66,10 @@ export default function SinglePost() {
             <Link className="link" to={`/?user=${post.username}`}>
               Category: <b>{post.cat}</b>
             </Link>
+            |
+            <button className="link icon" onClick={() => { likeButton()}}>
+              <b className={`${liked === true ? "liked" : ""}`}><AiFillLike /></b>
+            </button>
           </div>
         </div>
         <div className="singlePostText">
