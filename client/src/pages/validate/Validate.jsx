@@ -16,7 +16,6 @@ export default function Validate() {
       .get("http://127.0.0.1:4000/post/show-all-posts")
       .then((res) => setPosts(res.data));
     actions();
-    console.log(posts);
   }, []);
 
   const validatePost = (post) => {
@@ -32,8 +31,8 @@ export default function Validate() {
   };
 
   const deletePost = (id) => {
-    axios.delete(`http://127.0.0.1:4000/post/delete-post/${id}`, { data: {user: user}}).then((res) => {
-      console.log(res);
+    axios.put(`http://127.0.0.1:4000/post/update-post/${id}`, {
+     // post: { ...post, validated_by: user.id },
     });
   };
 
@@ -64,19 +63,20 @@ export default function Validate() {
                     <h1>Título: {post.title}</h1>
                     <p>Conteúdo: {post.content}</p>
                     {show ? (
-                      <button onClick={() => validatePost(post)}>
+                      <button onClick={() => validatePost(post.id)}>
                         Validar
                       </button>
                     ) : (
-                        <></>
-                      )}
-                    {                    <button
-                      key={post.id}
-                      onClick={() => deletePost(post.id)}
-                      style={{ backgroundColor: "red" }}
-                    >
-                      Deletar
-                    </button>
+                      <></>
+                    )}
+                    {
+                      <button
+                        key={post.id}
+                        onClick={() => deletePost(post.id)}
+                        style={{ backgroundColor: "red" }}
+                      >
+                        Deletar
+                      </button>
                     }{" "}
                   </div>
                 );
