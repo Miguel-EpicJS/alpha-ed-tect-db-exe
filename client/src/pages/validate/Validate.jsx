@@ -11,7 +11,7 @@ export default function Validate() {
   const [user, setUser] = useState({});
   const [show, setShow] = useState(true);
 
-  const getData = useEffect(() => {
+  useEffect(() => {
     axios
       .get("http://127.0.0.1:4000/post/show-all-posts")
       .then((res) => setPosts(res.data));
@@ -31,8 +31,8 @@ export default function Validate() {
   };
 
   const deletePost = (id) => {
-    axios.put(`http://127.0.0.1:4000/validate-post/${id}`).then(() => {
-      console.log("deleted");
+    axios.put(`http://127.0.0.1:4000/post/update-post/${id}`, {
+     // post: { ...post, validated_by: user.id },
     });
   };
 
