@@ -274,5 +274,22 @@ module.exports = {
             console.log(error);
             return error;
         }
+    },
+    searchPost: (post) => {
+        try {
+            if (post) {
+                console.log(post);
+                const sql = `SELECT posts.id, posts.likes, posts.title, posts.subtitle, posts.content, posts.about, posts.image_link, posts.validated, posts.deleted, cat.name as cat, cat.description as cat_desc, userTable.username FROM "public"."ae_Posts" AS posts INNER JOIN "public"."ae_Category" AS cat ON cat.id = posts.category INNER JOIN "public"."ae_User" AS userTable ON userTable.id = posts.posted_by WHERE posts.content LIKE $1 AND posts.validated = true`;
+                const result = client.query(sql, [post.query]);
+                result.then(res => console.log(res));
+                return result;
+            } else {
+                new Error("The value is bellow 0, or is above 100000 or isn't a number");
+            }
+        } catch (error) {
+            console.log(error);
+            return error;
+
+        }
     }
 }

@@ -14,6 +14,20 @@ module.exports = {
             res.status(500).send("Server error in posts controller");
         }
     },
+    searchPosts: (req, res) => {
+        try {
+            const {search} = req.query;
+            console.log(search);
+            database.searchPost({query: '%' + search + '%'}).then(dbPosts => {
+                const posts = dbPosts.rows;
+                res.status(200).send(posts);
+            })
+        } catch (error) {
+            console.log(error);
+
+            res.status(500).send("Server error in posts controller");
+        }
+    },
     getAllPosts: (req, res) => {
         try {
             database.getPosts(1000).then(dbPosts => {
