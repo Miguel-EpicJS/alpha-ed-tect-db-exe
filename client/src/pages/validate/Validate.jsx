@@ -11,12 +11,21 @@ export default function Validate() {
   const [user, setUser] = useState({});
   const [show, setShow] = useState(true);
 
+  
+
   useEffect(() => {
+    const actions = () => {
+      const cookies = new Cookies();
+      setUser(cookies.get("user"));
+      console.log(user);
+      setIsLoading(false);
+    }
+
     axios
       .get("http://127.0.0.1:4000/post/show-all-posts")
       .then((res) => setPosts(res.data));
     actions();
-  }, []);
+  }, [user]);
 
   const validatePost = (post) => {
     axios
@@ -35,13 +44,6 @@ export default function Validate() {
      // post: { ...post, validated_by: user.id },
     });
   };
-
-  function actions() {
-    const cookies = new Cookies();
-    setUser(cookies.get("user"));
-    console.log(user);
-    setIsLoading(false);
-  }
 
   if (isLoading) {
     return <div className="validate">Carregando...</div>;
@@ -63,7 +65,7 @@ export default function Validate() {
                     <h1>Título: {post.title}</h1>
                     <p>Conteúdo: {post.content}</p>
                     {show ? (
-                      <button onClick={() => validatePost(post.id)}>
+                      <button onClick={() => validatePost(post)}>
                         Validar
                       </button>
                     ) : (

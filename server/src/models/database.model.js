@@ -181,6 +181,7 @@ module.exports = {
     validatePost: (post) => {
         try {
             if (post) {
+                console.log(post);
                 const sql = `UPDATE "public"."ae_Posts" SET validated = $1, validated_by = $2 WHERE id = $3`;
                 client.query(sql, [ true, post.validated_by, post.id]);
                 return true;

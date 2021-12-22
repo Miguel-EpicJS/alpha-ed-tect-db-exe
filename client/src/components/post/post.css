@@ -1,6 +1,5 @@
 .container {
-  width: 500px;
-  flex: 3;
+  width: 33.33%;
 }
 
 .post {
