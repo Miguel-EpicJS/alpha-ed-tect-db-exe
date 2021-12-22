@@ -25,7 +25,7 @@ export default function Validate() {
       .get("http://127.0.0.1:4000/post/show-all-posts")
       .then((res) => setPosts(res.data));
     actions();
-  }, [user]);
+  }, []);
 
   const validatePost = (post) => {
     axios
