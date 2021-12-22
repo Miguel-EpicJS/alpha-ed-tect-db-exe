@@ -88,9 +88,6 @@ export default function TopBar() {
           </ul>
         )}
       </div>
-      <div className="top-right">
-        <SearchBar />
-      </div>
     </div>
   );
 }
